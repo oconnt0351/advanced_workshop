@@ -28,7 +28,7 @@ module tb ();
 `endif
 
   // Replace tt_um_example with your module name:
-  tt_um_example user_project (
+  tt_um_oconnt_counter dut (
 
       // Include power ports for the Gate Level test:
 `ifdef GL_TEST
@@ -45,5 +45,20 @@ module tb ();
       .clk    (clk),      // clock
       .rst_n  (rst_n)     // not reset
   );
+
+   // Clock generation: 10ns period
+  initial clk = 0;
+  always #5 clk = ~clk;
+
+  // Stimulus
+  initial begin
+    // Initialize signals
+    ui_in = 8'd0;
+    uio_in = 8'd0;
+    ena    = 1'b1;
+    rst_n  = 1'b0;  // Assert reset
+    #12 rst_n = 1'b1;  // Deassert reset
+    #200 $finish;   // End simulation after 20 cycles
+  end
 
 endmodule
